@@ -1,7 +1,6 @@
-// Create a simple Flutter calculator app with an accumulator display and clear functionality. The app should have a layout similar to a basic calculator with buttons for digits (0-9), arithmetic operators (+, -, *, /), equals (=), clear (C), and a display as shown in the image here (Note: The example image is for reference only. Your app layout/design may vary.)
-
 import 'package:expressions/expressions.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 void main() {
   runApp(CalculatorApp());
@@ -36,6 +35,24 @@ class _CalculatorHomePageState extends State<CalculatorHomePage> {
           final evaluator = const ExpressionEvaluator();
           final result = evaluator.eval(expression, {});
           _output = result.toString();
+        } catch (e) {
+          _output = "Error";
+        }
+      } else if (buttonText == "x²") {
+        try {
+          final num = double.parse(_output);
+          final result = num * num;
+          _output = result.toString();
+          _expression = result.toString();
+        } catch (e) {
+          _output = "Error";
+        }
+      } else if (buttonText == "√") {
+        try {
+          final num = double.parse(_output);
+          final result = sqrt(num);
+          _output = result.toString();
+          _expression = result.toString();
         } catch (e) {
           _output = "Error";
         }
@@ -120,6 +137,8 @@ class _CalculatorHomePageState extends State<CalculatorHomePage> {
               ),
               Row(
                 children: [
+                  _buildButton("x²"),
+                  _buildButton("√"),
                   _buildButton("C"),
                   _buildButton("="),
                 ],
